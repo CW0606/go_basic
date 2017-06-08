@@ -433,13 +433,114 @@ func main() {
 }
 ```
 
+## 流程控制语句: for,if,else,switch 和 defer
+
+## for
+Go **只有一种循环结构** —— for 循环。
+
+基本的 for 循环包含三个由分号分开的组成部分：
+
+初始化语句：在第一次循环执行前被执行
+循环条件表达式：每轮迭代开始前被求值
+后置语句：每轮迭代后被执行
+初始化语句一般是一个短变量声明，这里声明的变量仅在整个 for 循环语句可见。
+
+如果条件表达式的值变为 false，那么迭代将终止。
+
+注意：不像 C，Java，或者 Javascript 等其他语言，for 语句的三个组成部分 并不需要用括号括起来，但循环体 **必须用 { } 括起来**。
+
+``` go
+// for.go
+package main
+
+import "fmt"
+
+func main() {
+    sum := 0
+    for i := 0; i < 10; i++ {
+        sum += i
+    }
+    fmt.Println(sum)
+}
+```
+
+### for（续）
+循环初始化语句和后置语句都是可选的。
+
+``` go
+// for-continued.go
+package main
+
+import "fmt"
+
+func main() {
+    sum := 1
+    for ; sum < 1000; {
+        sum += sum
+    }
+    fmt.Println(sum)
+}
+```
+
+### for 是 Go 的 “while”
+基于此可以省略分号：C 的 while 在 Go 中叫做 for 。
+
+``` go
+// for-is-gos-while.go
+package main
+
+import "fmt"
+
+func main() {
+    sum := 1
+    for sum < 1000 {
+        sum += sum
+    }
+    fmt.Println(sum)
+}
+```
 
 
+### 死循环
+如果省略了循环条件，循环就不会结束，因此可以用更简洁地形式表达死循环。
+
+``` go
+// forever.go
+
+package main
+
+func main() {
+    for {
+    }
+}
+```
 
 
+#if
 
+就像 for 循环一样，Go 的 if 语句也不要求用 ( ) 将条件括起来，同时， **{ } 还是必须有的**。
 
+``` go
+// if.go
+package main
 
+import (
+    "fmt"
+    "math"
+)
+
+func sqrt(x float64) string {
+    if x < 0 {
+        return sqrt(-x) + "i"
+    }
+    return fmt.Sprint(math.Sqrt(x))
+}
+
+func main() {
+    fmt.Println(sqrt(2), sqrt(-4))
+}
+
+```
 
 
 
