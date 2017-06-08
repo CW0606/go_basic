@@ -287,3 +287,159 @@ func main() {
 
 ```
 
+### 零值
+变量在定义时没有明确的初始化时会赋值为 零值 。
+
+零值是：
+
+数值类型为 0 ，
+布尔类型为 false ，
+字符串为 "" （空字符串）。
+
+``` go
+// zero.go
+
+package main
+
+import "fmt"
+
+func main() {
+    var i int
+    var f float64
+    var b bool
+    var s string
+    fmt.Printf("%v %v %v %q\n", i, f, b, s)
+}
+
+```
+
+### 类型转换
+表达式 T(v) 将值 v 转换为类型 T 。
+
+一些关于数值的转换：
+
+var i int = 42
+var f float64 = float64(i)
+var u uint = uint(f)
+或者，更加简单的形式：
+
+i := 42
+f := float64(i)
+u := uint(f)
+**与 C 不同的是 Go 的在不同类型之间的项目赋值时需要显式转换**。 试着移除例子中 float64 或 int 的转换看看会发生什么。
+
+``` go
+// type-conversions.go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    x, y := 3, 4
+    var f = math.Sqrt(float64(x*x + y*y))
+    var z uint = uint(f)
+    fmt.Println(x, y, z)
+}
+```
+
+### 类型推导
+在定义一个变量却并不显式指定其类型时（使用 := 语法或者 var = 表达式语法）， 变量的类型由（等号）右侧的值推导得出。
+
+当右值定义了类型时，新变量的类型与其相同：
+
+var i int
+j := i // j 也是一个 int
+但是当右边包含了未指名类型的数字常量时，新的变量就可能是 int 、 float64 或 complex128 。 这取决于常量的精度：
+
+i := 42           // int
+f := 3.142        // float64
+g := 0.867 + 0.5i // complex128
+尝试修改演示代码中 v 的初始值，并观察这是如何影响其类型的。
+
+``` go
+// type-inference.go
+
+package main
+
+import "fmt"
+
+func main() {
+    v := 42 // change me!
+    fmt.Printf("v is of type %T\n", v)
+}
+
+```
+
+### 常量
+常量的定义与变量类似，只不过使用 const 关键字。
+
+常量可以是字符、字符串、布尔或数字类型的值。
+
+常量不能使用 := 语法定义。
+
+``` go
+// constants.go
+
+package main
+
+import "fmt"
+
+const Pi = 3.14
+
+func main() {
+    const World = "世界"
+    fmt.Println("Hello", World)
+    fmt.Println("Happy", Pi, "Day")
+
+    const Truth = true
+    fmt.Println("Go rules?", Truth)
+}
+
+```
+
+### 数值常量
+数值常量是高精度的 值 。
+
+一个未指定类型的常量由上下文来决定其类型。
+
+也尝试一下输出 needInt(Big) 吧。
+
+（int 可以存放最大64位的整数，根据平台不同有时会更少。）
+
+``` go
+// numeric-constants.go
+package main
+
+import "fmt"
+
+const (
+    Big   = 1 << 100
+    Small = Big >> 99
+)
+
+func needInt(x int) int { return x*10 + 1 }
+func needFloat(x float64) float64 {
+    return x * 0.1
+}
+
+func main() {
+    fmt.Println(needInt(Small))
+    fmt.Println(needFloat(Small))
+    fmt.Println(needFloat(Big))
+    fmt.Println(needInt(Big))
+}
+```
+
+
+
+
+
+
+
+
+
+
+
